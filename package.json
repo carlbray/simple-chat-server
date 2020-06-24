@@ -1,0 +1,43 @@
+{
+  "_from": "simple-chat-server",
+  "_id": "simple-chat-server@1.0.3",
+  "_inBundle": false,
+  "_integrity": "sha512-MXd+/Nana06vakfUHL3MHiSc20ugpIuuwwkYkgw/wslXMcTUHapcBC6rSqacBaK77wtBZ7YntMYhlucI1+gLyg==",
+  "_location": "/simple-chat-server",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "simple-chat-server",
+    "name": "simple-chat-server",
+    "escapedName": "simple-chat-server",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/simple-chat-server/-/simple-chat-server-1.0.3.tgz",
+  "_shasum": "274776f06472abfcbfc4beb089b07d73cbc0a294",
+  "_spec": "simple-chat-server",
+  "_where": "/media/afy/19C09EAD3A6227A8/Programs/JS/Projects/chat/server",
+  "author": {
+    "name": "Ali Furkan YILDIZ"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "minimist": "^1.2.5",
+    "uuid": "^8.2.0"
+  },
+  "deprecated": false,
+  "description": "Simple chat server",
+  "devDependencies": {},
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "name": "simple-chat-server",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.3"
+}
