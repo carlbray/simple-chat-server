@@ -11,9 +11,10 @@
   "main": "index.js",
   "name": "simple-chat-server",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uAliFurkanY/simple-chat-server.git"
