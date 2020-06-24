@@ -93,6 +93,7 @@ github          Displays the URL of the github repository
 
         case "github":
             c.write(`https://github.com/uAliFurkanY/simple-chat-server\n`);
+            break;
 
         default:
             return false;
