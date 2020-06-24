@@ -2,11 +2,13 @@ const net = require("net");
 const uuid = require("uuid");
 const args = require("minimist")(process.argv);
 let port = +(args.port || args.p) || process.env.PORT || 45620, host = args.host || args.h || process.env.HOST || "0.0.0.0";
+const startTime = Date.now();
 
 const users = [];
 
-const validName = str => /^[a-zA-Z0-9-_!@$&(){}=|?+* ]{3,16}$/.test(str),
-    validMsg = str => str.length <= 1024 && str.length > 0;
+const validName = str => /^[a-zA-Z0-9-_!@$()| ]{3,20}$/.test(str),
+    validMsg = str => str.length <= 1024 && str.length > 0,
+    getTimeStamp = (date = new Date()) => `[${date.getUTCHours()}:${date.getUTCMinutes()}]`;
 
 function removeUser(id) {
     try {
@@ -35,6 +37,11 @@ function getId(name) {
     if (user) return user.id;
     else return false;
 }
+function getClient(val, type) {
+    let user = users[getIndex(val, type)];
+    if (user) return user.c;
+    else return false;
+}
 
 function broadcast(msg) {
     console.log(msg);
@@ -44,10 +51,53 @@ function sendMsg(id, message) {
     message = message.toString().trim();
     if (validMsg(message)) {
         let date = new Date();
-        broadcast(`[${date.getUTCHours()}:${date.getUTCMinutes()}] <${getName(id)}> ${message}`);
+        broadcast(`${getTimeStamp()} <${getName(id)}> ${message}`);
         return true;
     } else
         return false;
+}
+
+function command(id, cmd) {
+    let c = getClient(id);
+    let name = getName(id);
+    cmd = cmd.substr(1);
+    let args = cmd.split(" ");
+    let command = args.shift();
+    let timestamp = getTimeStamp();
+    switch (command) {
+        case "help":
+            c.write(`Commands:
+help            Displays this help page
+msg, message    Sends a message to another person
+time, uptime    Displays uptime
+github          Displays the URL of the github repository
+`);
+            break;
+
+        case "message":
+        case "msg":
+            let targetName = getId(args.shift());
+            let message = args.join(" ");
+            if (!(targetName && message && validMsg(message))) {
+                c.write("Usage: msg|message <user> <message>\n");
+                break;
+            }
+            getClient(targetName).write(`${timestamp} ${name} whispers: ${message}\n`);
+            break;
+
+        case "time":
+        case "uptime":
+            let runningFor = Math.round((Date.now() - startTime) / (60 * 1000) * 100) / 100;
+            c.write(`Current uptime: ${runningFor} minutes.\n`);
+            break;
+
+        case "github":
+            c.write(`https://github.com/uAliFurkanY/simple-chat-server\n`);
+
+        default:
+            return false;
+    }
+    return true;
 }
 
 net.createServer(c => {
@@ -76,7 +126,9 @@ net.createServer(c => {
         c.write("Welcome, " + d + ".\nAll dates are in UTC.\n");
         c.on("data", d => {
             d = d.toString().trim();
-            if (!sendMsg(id, d))
+            if (d.startsWith("/") && command(id, d))
+                console.log(`{${name}} ` + d);
+            else if (!sendMsg(id, d))
                 c.write("Message should be between 1-1024 characters.\n");
         });
     });
