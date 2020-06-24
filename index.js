@@ -5,7 +5,7 @@ let port = +(args.port || args.p) || process.env.PORT || 45620, host = args.host
 
 const users = [];
 
-const validName = str => /^[a-zA-Z0-9-_!@$&(){}=|?+*]{3,16}$/.test(str),
+const validName = str => /^[a-zA-Z0-9-_!@$&(){}=|?+* ]{3,16}$/.test(str),
     validMsg = str => str.length <= 1024 && str.length > 0;
 
 function removeUser(id) {
@@ -43,7 +43,8 @@ function broadcast(msg) {
 function sendMsg(id, message) {
     message = message.toString().trim();
     if (validMsg(message)) {
-        broadcast(`<${getName(id)}> ${message}`);
+        let date = new Date();
+        broadcast(`[${date.getUTCHours()}:${date.getUTCMinutes()}] <${getName(id)}> ${message}`);
         return true;
     } else
         return false;
@@ -72,7 +73,7 @@ net.createServer(c => {
             c.emit("end");
             return c.end();
         }
-        c.write("Welcome, " + d + ".\nEntering a message sends it.\n");
+        c.write("Welcome, " + d + ".\nAll dates are in UTC.\n");
         c.on("data", d => {
             d = d.toString().trim();
             if (!sendMsg(id, d))
