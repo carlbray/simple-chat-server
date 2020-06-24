@@ -1,8 +1,5 @@
 {
-  "author": {
-    "name": "Ali Furkan YILDIZ"
-  },
-  "bundleDependencies": false,
+  "author": "Ali Furkan YILDIZ",
   "dependencies": {
     "minimist": "^1.2.5",
     "uuid": "^8.2.0"
@@ -16,5 +13,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.3"
+  "version": "1.0.3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uAliFurkanY/simple-chat-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uAliFurkanY/simple-chat-server/issues"
+  },
+  "homepage": "https://github.com/uAliFurkanY/simple-chat-server#readme"
 }
